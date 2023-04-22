@@ -167,7 +167,8 @@
         padding: 20px;
 
 		flex-direction: row;
-		height: 80vh;
+		/* height: fit-content;
+		max-height: 80vh; */
 		/* width: 100vw; */
 		/* overflow: hidden; */
       }
@@ -199,6 +200,35 @@
 		main:nth-child(even) {
 		animation-delay: 0.4s;
 		}
+
+		@keyframes slide-in2 {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+/* Apply the animation to the main element */
+.card {
+  animation: slide-in2 2s ease-in-out forwards;
+}
+
+/* Reverse the animation when scrolling up */
+.card.animate-reverse {
+  animation-direction: reverse;
+}
+
+/* Add a delay to the animation to create a staggered effect */
+.card:nth-child(odd) {
+  animation-delay: 0.2s;
+}
+
+.card:nth-child(even) {
+  animation-delay: 0.4s;
+}
+
 
       
       /* Styling for the image */
@@ -266,14 +296,15 @@
         padding: 10px 20px;
         border-radius: 20px;
         transition: background-color 0.3s ease;
-		border: none;
+		border: 2px solid #05532a;
+		/* border: none; */
         /* border: none; */
       }
       
-      .text button:hover {
+      /* .text button:hover {
         background-color: #05532a;
         color: #ffffff;
-      }
+      } */
 
 	  .dropdown {
   position: relative;
@@ -403,6 +434,146 @@
         }
         }
 
+
+		/* Services Section */
+
+#services {
+  /* padding: 80px 0; */
+  /* background-color: #f8f9fa; */
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  /* text-transform: uppercase; */
+  margin-bottom: 40px;
+  text-align: center;
+  /* font-family: Arial, sans-serif; */
+}
+
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card {
+  margin-bottom: 15px;
+  border: none;
+  /* box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-img-top {
+  max-width: 100%;
+  height: auto;
+  margin: auto;
+  display: block;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.card-text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-bottom: 0px;
+}
+
+.circle {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  /* border: 2px solid black; */
+}
+
+.circle img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center center;
+}
+
+footer {
+  background-color: #f7f7f7;
+  padding: 50px 0;
+  width: 100%;
+  height: fit-content;
+}
+
+.footer-widget {
+  margin-bottom: 30px;
+}
+
+.footer-widget h4 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-family: Arial, sans-serif;
+}
+
+.footer-widget p {
+	font-family: Arial, sans-serif;
+	font-size: 1rem;
+}
+
+.footer-widget ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-widget ul li {
+  margin-bottom: 10px;
+}
+
+.footer-widget ul li a {
+  color: #666;
+  font-family: Arial, sans-serif;
+}
+
+.footer-widget ul li a:hover {
+  color: #333;
+}
+
+input {
+	width: 100px;
+}
+
+
+
+@media (max-width: 767px) {
+  .card {
+    margin-bottom: 60px;
+  }
+  
+}
+
+		@media only screen and (min-width: 768px){
+
+			.text button {
+				border: none;
+			}
+			.text button:hover {
+				background-color: #05532a;
+				color: #ffffff;
+			}
+		}
+
+
 		@media only screen and (max-width: 667px) {
 			.logo {
 				font-size: 1rem;
@@ -425,7 +596,7 @@
 				font-size: 1.2rem;
 				padding: 0.8rem 2rem;
 			}
-			nav a{
+			header nav a{
 				display: none;
 			}
 			
@@ -434,6 +605,18 @@
 				font-weight: 800;
 				color: #16742a;
 				letter-spacing: 1px;
+			}
+
+			.card {
+				border: white;
+				margin-bottom: 15px;
+			}
+
+			footer .row {
+				flex-direction: column;
+			}
+			footer {
+				height: fit-content;
 			}
 			/* .mobile-menu {
 				display: block;
@@ -458,12 +641,18 @@
 			main {
 				flex-direction: column-reverse;
 				display: block;
+				height: fit-content;
+			}
+
+			main button{
+				border: #05532a;
 			}
 			
 			.image {
 				width: 100%;
 				margin-right: 0;
-				margin-bottom: 20px;
+				margin-bottom: 0px;
+				/* height: 190px; */
 			}
 			
 			.text {
@@ -491,7 +680,7 @@
 		  <button class="signup-button">Sign Up</button>
 		</div>
 	</header>
-
+	<!-- <div class="mainBody"> -->
 	<main>
 		
 		<div class="text">
@@ -503,12 +692,124 @@
 		  <button>Sign In</button>
 		</div>
 		<div class="image">
-			<img src="/src/main/resources/static/images/nacoslogo.png" alt="ImageLogo">
+			<img src="/src/main/resources/static/images/one.jpg" alt="ImageLogo">
 		</div>
 	</main>
-	<div>
-		<p>JUST A TEXT NOW....</p>
-	</div>
+
+	<section id="services">
+		<div class="container">
+		  <h2 class="section-title">What MistSafe Offers</h2>
+		  <div class="row">
+			<div class="col-md-4">
+			  <div class="card">
+				
+				<div class="card-body">
+				  <h3 class="card-title">Cloud File Storage</h3>
+				  <!-- <div class="circle">
+					<img src="/src/main/resources/static/images/two.png" alt="Image description">
+				  </div> -->
+				  <p class="card-text">MistSafe provides a secure and reliable cloud-based file storage solution to easily store and access files from anywhere.</p>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-4">
+			  <div class="card">
+				<!-- <div class="circle">
+					<img src="/src/main/resources/static/images/three.jpg" alt="Image description">
+				</div> -->
+				<div class="card-body">
+				  <h3 class="card-title">Share Big Files</h3>
+				  <p class="card-text">MistSafe allows you to share large files with ease, without having to worry about email attachment limits or slow upload speeds.</p>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-4">
+			  <div class="card">
+				<!-- <div class="circle">
+					<img src="/src/main/resources/static/images/four.jpg" alt="Image description">
+				</div> -->
+				<div class="card-body">
+				  <h3 class="card-title">Link Sharing</h3>
+				  <p class="card-text">Create a link to share your files with others, allowing them to view or download the file directly from the web.</p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="col-md-4">
+			  <div class="card">
+				<!-- <img src="file-collections-logo.png" alt="File Collections Logo" class="card-img-top"> -->
+				<div class="card-body">
+				  <h3 class="card-title">File Collections</h3>
+				  <p class="card-text">Organize your files into collections, and add preview text and remarks to keep everything organized and easy to find.</p>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-4">
+			  <div class="card">
+				<!-- <img src="access-control-logo.png" alt="Access Control Logo" class="card-img-top"> -->
+				<div class="card-body">
+				  <h3 class="card-title">Access Control</h3>
+				  <p class="card-text">You have full control over who can access your files or collections, ensuring your data stays secure and private.</p>
+				</div>
+			  </div>
+			</div>
+			<div class="col-md-4">
+			  <div class="card">
+				<!-- <img src="additional-features-logo.png" alt="Additional Features Logo" class="card-img-top"> -->
+				<div class="card-body">
+				  <h3 class="card-title">Additional Features</h3>
+				  <p class="card-text">MistSafe is always adding new features to enhance your file sharing and storage experience. Stay tuned for more!</p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </section>
+	  
+	  <footer>
+		<div class="container">
+		  <div class="row">
+			<div class="col-md-6">
+				<div class="footer-widget">
+				  <h4>Send us a message</h4>
+				  <form>
+					<div class="form-group">
+					  <input type="text" class="form-control" placeholder="Name" required>
+					</div>
+					<div class="form-group">
+					  <input type="email" class="form-control" placeholder="Email" required>
+					</div>
+					<div class="form-group">
+					  <input type="text" class="form-control" placeholder="Subject" required>
+					</div>
+					<div class="form-group row">
+					  <div class="col-sm-9">
+						<textarea class="form-control" rows="5" placeholder="Message" required></textarea>
+					  </div>
+					</div>
+					<button type="submit" class="btn btn-primary">Send Message</button>
+				  </form>
+				</div>
+			  </div>
+			  
+			<div class="col-md-6">
+			  <div class="footer-widget">
+				<h4>Quick Links</h4>
+				<nav>
+				  <ul>
+					<li><a href="#">About Us</a></li>
+					<li><a href="#">Help/Support</a></li>
+				  </ul>
+				</nav>
+				<p>&copy; 2023 MistSafe. All Rights Reserved.</p>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </footer>
+	  
+	<!-- </div> -->
 	
 	
 	<!-- <div class="container text-center">
