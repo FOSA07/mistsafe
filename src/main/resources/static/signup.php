@@ -64,7 +64,7 @@
 			color: #666;
 		}
 		.form-container button[type="submit"] {
-			background-color: #007bff;
+			/* background-color: #007bff; */
 			border: none;
 			border-radius: 5px;
 			box-shadow: none;
@@ -76,7 +76,7 @@
 			transition: all 0.2s ease-in-out;
 		}
 		.form-container button[type="submit"]:hover {
-			background-color: #0069d9;
+			/* background-color: #0069d9; */
 		}
 
 		/* Styles for the "Continue with Google" button */
@@ -97,6 +97,9 @@
 		}
 		.google-btn:hover {
 			box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.3);
+		}
+		.signinbutton {
+			width: fit-content;
 		}
         /* .first {
             
@@ -119,12 +122,12 @@
     <body>
         <div class="container">
           <div class="row">
-            <div class="col-md-6 d-flex flex-column justify-content-center first">
+            <div class="col-md-5 d-flex flex-column justify-content-center first">
               <h2>Welcome back!</h2>
               <p>To keep connected with Mistdafe, please sign in with your personal information.</p>
-              <button type="button" class="btn btn-primary w-70">Sign In</button>
+              <button type="button" class="btn btn-success signinbutton">Sign In</button>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-7">
               <form class="form-container">
                 <h2>Create an account</h2>
                 <div class="form-group">
@@ -139,7 +142,7 @@
                   <input type="checkbox" class="form-check-input" id="remember">
                   <label class="form-check-label" for="remember">Remember me</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" class="btn btn-success">Sign Up</button>
                 <p>or</p>
                 <button type="button" class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
               </form>
