@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Email Sent Page</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<!-- Custom CSS -->
+	<style>
+		.container {
+			margin-top: 50px;
+			text-align: center;
+		}
+		h1 {
+			margin-bottom: 20px;
+		}
+		p {
+			font-size: 1.2rem;
+			margin-bottom: 30px;
+		}
+		.btn {
+			font-size: 1.2rem;
+			padding: 10px 30px;
+			margin-top: 30px;
+			border-radius: 30px;
+			color: #fff;
+			border: none;
+			transition: background-color 0.3s ease;
+		}
+		.btn:hover {
+			background-color: #0069d9;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container">
+		<h1>Email Sent!</h1>
+		<p>An email has been sent to your <span th:text="${email}"></span> with instructions on how to activate your account.</p>
+		<a href="/signup" class="btn btn-success btn-lg">Go back to Sign Up</a>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

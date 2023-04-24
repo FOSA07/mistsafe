@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -122,10 +122,17 @@
     <body>
         <div class="container">
           <div class="row">
+			<div class="first">
+				<div class="col-md-5 d-flex flex-column justify-content-center first">
+				<h2>Welcome back!</h2>
+				<p>To keep connected with MistSafe, please sign in with your personal information.</p>
+				<a href="/signin" ><button type="button" class="btn btn-success signinbutton">Sign In</button></a>
+				</div>
+			</div>
             <div class="col-md-7">
-              <form class="form-container">
-                <h2>Welcome back!</h2>
-                <div class="form-group">
+              <form class="form-container" method="post" action="/verifyemail">
+                <h2>Create an account</h2>
+                <div class="form-group" >
                   <label for="email">Email Address</label>
                   <input type="email" id="email" name="email" required>
                 </div>
@@ -137,18 +144,11 @@
                   <input type="checkbox" class="form-check-input" id="remember">
                   <label class="form-check-label" for="remember">Remember me</label>
                 </div>
-                <button type="submit" class="btn btn-success">Sign In</button>
+                <button type="submit" class="btn btn-success">Sign Up</button>
                 <p>or</p>
                 <button type="button" class="google-btn"><i class="fab fa-google"></i> Continue with Google</button>
               </form>
             </div>
-
-            <div class="col-md-5 d-flex flex-column justify-content-center first">
-                <h2>Hello, Friend!</h2>
-                <p>Don't have an account? Keep calm! You're almost there for the experience</p>
-                <p>Click on the signUp button to join the mistSafe family.</p>
-                <button type="button" class="btn btn-success signinbutton">Sign In</button>
-              </div>
           </div>
         </div>
         <!-- Bootstrap JS -->
