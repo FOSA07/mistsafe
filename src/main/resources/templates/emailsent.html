@@ -13,10 +13,12 @@
 		}
 		h1 {
 			margin-bottom: 20px;
+			/* font-size: 2rem; */
 		}
 		p {
-			font-size: 1.2rem;
+			font-size: 2.2rem;
 			margin-bottom: 30px;
+			text-align: center;
 		}
 		.btn {
 			font-size: 1.2rem;
@@ -37,7 +39,7 @@
 
 	<div class="container">
 		<h1>Email Sent!</h1>
-		<p>An email has been sent to your <span th:text="${email}"></span> with instructions on how to activate your account.</p>
+		<p>An email has been sent to <span th:text="${email}"></span> with instructions on how to activate your account.</p>
 		<a href="/signup" class="btn btn-success btn-lg">Go back to Sign Up</a>
 	</div>
 
