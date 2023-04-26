@@ -54,9 +54,7 @@ public class MainController {
         try{
             Map reply = authService.registerWithEmailAndPassword(email, password);
             // authService.sendEmailVerificationLink("name","link");
-        // String subject = "Verify your email address";
-        // String text = "Hi " + "user" + ",\n\nPlease click on the following link to verify your email address:\n\n" + "link" + "\n\nBest regards,\nThe MyWebsite Team";
-        // emailService.sendEmail(email, subject, text);
+        
             if(reply.get("status")=="error"){
                 return "errorpage";
             }
@@ -67,7 +65,6 @@ public class MainController {
 
             String result = emailService.sendEmail(email, subject, text);
             model.addAttribute("email", email);
-            // return "emailsent";
             
 
             if(result == "success"){
