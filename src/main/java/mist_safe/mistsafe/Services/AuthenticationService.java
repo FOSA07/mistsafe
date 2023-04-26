@@ -143,6 +143,8 @@ public class AuthenticationService {
     prop.put("mail.smtp.host", "smtp.mailtrap.io");
     prop.put("mail.smtp.port", "587");
     prop.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
+    prop.put("mail.username", "faletioluwaseyisam@gmail.com");
+    prop.put("mail.password", "gyxjhrbqvspriejk");
 
     Session session = Session.getInstance(prop, new Authenticator() {
         @Override
