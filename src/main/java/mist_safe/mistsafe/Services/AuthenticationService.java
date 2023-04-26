@@ -154,7 +154,7 @@ public class AuthenticationService {
     Message message = new MimeMessage(session);
     message.setFrom(new InternetAddress("faletioluwaseyisam@gmail.com"));
     message.setRecipients(
-      Message.RecipientType.TO, InternetAddress.parse("oyindamolafaleti@gmail.com"));
+      Message.RecipientType.TO, InternetAddress.parse("olusinafaleti@gmail.com"));
     message.setSubject("Mail Subject");
 
     String msg = "This is my first email using JavaMailer";
