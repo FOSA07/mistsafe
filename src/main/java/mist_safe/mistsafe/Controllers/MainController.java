@@ -38,21 +38,30 @@ public class MainController {
         return "signin";
     }
 
+    @GetMapping("/error-page")
+    public String openErrorPage(){
+        return "errorpage";
+    }
+
     @Autowired
     private EmailService emailService;
 
     @PostMapping("/verifyemail")
     public String openEmailSent(@RequestParam String email, String password, Model model) throws AddressException, MessagingException{
 
-        // authService.registerWithEmailAndPassword(email, password);
-        authService.sendEmailVerificationLink("name","link");
+        try{
+            // authService.registerWithEmailAndPassword(email, password);
+        // authService.sendEmailVerificationLink("name","link");
         // String subject = "Verify your email address";
         // String text = "Hi " + "user" + ",\n\nPlease click on the following link to verify your email address:\n\n" + "link" + "\n\nBest regards,\nThe MyWebsite Team";
         // emailService.sendEmail(email, subject, text);
 
-        
-        model.addAttribute("email", email);
-        return "emailsent";
+            model.addAttribute("email", email);
+            // return "emailsent";
+            return "errorpage";
+        }catch (Exception e){
+            return "errorpage";
+        }
     }
 
 }
