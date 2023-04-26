@@ -59,6 +59,7 @@ public class MainController {
             String result = emailService.sendEmail(email, "subject here", "this is the body");
             model.addAttribute("email", email);
             // return "emailsent";
+            
 
             if(result == "success"){
                 return "emailsent";
