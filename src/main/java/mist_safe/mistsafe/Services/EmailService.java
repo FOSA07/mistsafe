@@ -20,9 +20,10 @@ public class EmailService {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo("olusinafaleti@gmail.com");
-            message.setSubject("subject");
-            message.setText("text");
+            message.setTo(recipientEmail);
+            message.setSubject(subject);
+            message.setFrom("mistSafe admin");
+            message.setText(text);
             javaMailSender.send(message);
 
             System.out.println("sent successfully");

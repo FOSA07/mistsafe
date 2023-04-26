@@ -1,5 +1,7 @@
 package mist_safe.mistsafe.Controllers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,13 +52,20 @@ public class MainController {
     public String openEmailSent(@RequestParam String email, String password, Model model) throws AddressException, MessagingException{
 
         try{
-            // authService.registerWithEmailAndPassword(email, password);
+            Map reply = authService.registerWithEmailAndPassword(email, password);
             // authService.sendEmailVerificationLink("name","link");
         // String subject = "Verify your email address";
         // String text = "Hi " + "user" + ",\n\nPlease click on the following link to verify your email address:\n\n" + "link" + "\n\nBest regards,\nThe MyWebsite Team";
         // emailService.sendEmail(email, subject, text);
+            if(reply.get("status")=="error"){
+                return "errorpage";
+            }
 
-            String result = emailService.sendEmail(email, "subject here", "this is the body");
+            String subject = "Verify your email address";
+            String link = String.valueOf( reply.get("link") );
+            String text = "Hi " + email + ",\n\nPlease click on the following link to verify your email address:\n\n" + link + "\n\nBest regards,\nThe MyWebsite Team";
+
+            String result = emailService.sendEmail(email, subject, text);
             model.addAttribute("email", email);
             // return "emailsent";
             

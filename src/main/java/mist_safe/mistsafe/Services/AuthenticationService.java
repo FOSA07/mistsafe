@@ -1,5 +1,6 @@
 package mist_safe.mistsafe.Services;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.mail.SimpleMailMessage;
@@ -98,36 +99,21 @@ public class AuthenticationService {
             String name = "username";
             // sendCustomEmail(email, name, link);
 
-            String subject = "Verify your email address";
-            String text = "Hi " + name + ",\n\nPlease click on the following link to verify your email address:\n\n" + link + "\n\nBest regards,\nThe MyWebsite Team";
-            
-            // sendEmailVerificationLink(email, link);
-
-            // String email = emailData.getEmail();
-            // String subject = emailData.getSubject();
-            // String body = emailData.getBody();
-
-
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo("olusinafaleti@gmail.com");
-            message.setSubject("subject");
-            message.setText("text");
-            // Message message = Message.builder()
-            //     .putData("to", email)
-            //     .putData("subject", subject)
-            //     .putData("body", text)
-            //     .setToken("email")
-            //     .build();
-
-            // FirebaseMessaging.getInstance().send(message);
-
-            // sendEmail(email,subject, text );
-
+                        
             System.out.println("finished");
+
+            Map reply = new HashMap<String, Object>();
+            reply.put("status", "success");
+            reply.put("link", link);
+
+            return reply;
           } catch (FirebaseAuthException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             
+            Map reply = new HashMap<String, Object>();
+            reply.put("status", "error");
+            reply.put("link", "");
           }
           
                 
