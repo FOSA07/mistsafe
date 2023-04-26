@@ -50,6 +50,7 @@ public class MainController {
         // String text = "Hi " + "user" + ",\n\nPlease click on the following link to verify your email address:\n\n" + "link" + "\n\nBest regards,\nThe MyWebsite Team";
         // emailService.sendEmail(email, subject, text);
 
+        
         model.addAttribute("email", email);
         return "emailsent";
     }
