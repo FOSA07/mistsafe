@@ -51,14 +51,20 @@ public class MainController {
 
         try{
             // authService.registerWithEmailAndPassword(email, password);
-        // authService.sendEmailVerificationLink("name","link");
+            // authService.sendEmailVerificationLink("name","link");
         // String subject = "Verify your email address";
         // String text = "Hi " + "user" + ",\n\nPlease click on the following link to verify your email address:\n\n" + "link" + "\n\nBest regards,\nThe MyWebsite Team";
         // emailService.sendEmail(email, subject, text);
 
+            String result = emailService.sendEmail(email, "subject here", "this is the body");
             model.addAttribute("email", email);
             // return "emailsent";
-            return "errorpage";
+
+            if(result == "success"){
+                return "emailsent";
+            }else{
+                return "errorpage";
+            }
         }catch (Exception e){
             return "errorpage";
         }
