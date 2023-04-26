@@ -1,5 +1,6 @@
 package mist_safe.mistsafe.Controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,10 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.AddressException;
 import mist_safe.mistsafe.Services.AuthenticationService;
+import mist_safe.mistsafe.Services.EmailService;
 
 @Controller
 public class MainController {
+
+    private final AuthenticationService authService;
+
+    public MainController(AuthenticationService authService) {
+        this.authService = authService;
+    }
     
     @GetMapping("/")
     public String openIndex() {
@@ -28,12 +38,20 @@ public class MainController {
         return "signin";
     }
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/verifyemail")
-    public String openEmailSent(@RequestParam String email, Model model){
-        AuthenticationService authService = new AuthenticationService();
-        // authService.registerWithEmailAndPassword(email, );
+    public String openEmailSent(@RequestParam String email, String password, Model model) throws AddressException, MessagingException{
+
+        // authService.registerWithEmailAndPassword(email, password);
+        authService.sendEmailVerificationLink("name","link");
+        // String subject = "Verify your email address";
+        // String text = "Hi " + "user" + ",\n\nPlease click on the following link to verify your email address:\n\n" + "link" + "\n\nBest regards,\nThe MyWebsite Team";
+        // emailService.sendEmail(email, subject, text);
 
         model.addAttribute("email", email);
         return "emailsent";
     }
+
 }
