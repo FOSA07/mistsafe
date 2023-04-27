@@ -22,10 +22,9 @@ public class EmailService {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(recipientEmail);
             message.setSubject(subject);
-            message.setFrom("mistSafe-admin");
+            message.setFrom("mistSafe-admin@test.com");
             message.setText(text);
             javaMailSender.send(message);
-
 
             System.out.println("sent successfully");
             return "success";                        
