@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification Required</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="alert alert-danger">
+            <i class="fas fa-exclamation-triangle"></i> Your email address has not been verified yet. Please check your inbox and follow the instructions to verify your email address. If you didn't receive the email, you can click the button below to resend the verification link.
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <button id="resend-email-btn" type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#resendEmailModal">
+                    <i class="fas fa-envelope"></i> Resend Email Verification Link
+                </button>
+            </div>
+            <div class="col-md-6">
+                <a href="#" class="btn btn-secondary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resend Email Modal -->
+    <div class="modal fade" id="resendEmailModal" tabindex="-1" role="dialog" aria-labelledby="resendEmailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resendEmailModalLabel">Resend Email Verification Link</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <p><i class="fas fa-spinner fa-spin"></i> Resending email verification link to <span id="email"></span>.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const resendEmailBtn = document.querySelector('#resend-email-btn');
+const resendEmailModal = document.querySelector('#resendEmailModal');
+const emailSpan = resendEmailModal.querySelector('#email');
+const modalBody = resendEmailModal.querySelector('.modal-body');
+const spinner = modalBody.querySelector('.fa-spinner');
+const email = emailSpan.textContent;
+
+resendEmailBtn.addEventListener('click', async () => {
+    try {
+        // Show the resend email modal
+        // $('#resendEmailModal').modal('show');
+
+        // Call your Java method to resend the email verification
+        const response = await fetch('/resend-email-verification', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(email)
+        });
+        
+        if (response.ok) {
+
+            $('#resendEmailModal').modal('show');
+
+            // Display the email address in the resend email modal
+            // const data = await response.json();
+            // emailSpan.textContent = data.email;
+
+            // Update the modal text to indicate that the email is being sent
+            spinner.classList.add('fa-spin');
+            modalBody.querySelector('p').textContent = `Resending email verification link to ${data.email}.`;
+
+            // Wait for the server to respond with a success or error message
+            const serverResponse = await response.json();
+
+            // Store the server response in a variable
+            const result = serverResponse.result;
+
+            // Check if the server response is successful or an error occurred
+            if (result === 'success') {
+                // Do something if the server response is successful
+                window.location.href = '/emailsent';
+            } else {
+                // Do something if an error occurred
+            }
+
+            // Hide the resend email modal
+            $('#resendEmailModal').modal('hide');
+            window.location.href = '/emailsent?email='+email;
+        } else {
+            $('#resendEmailModal').modal('hide');
+            throw new Error('Failed to resend email verification.');
+        }
+    } catch (error) {
+        console.error(error);
+        window.location.href = '/errorpage';
+        // alert('Failed to resend email verification.');
+    }
+});
+
+    </script>
+    
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>   

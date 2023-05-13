@@ -6,61 +6,32 @@ import java.util.Map;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.mail.javamail.JavaMailSender;
-// import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-// import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.auth.SessionCookieOptions;
 import com.google.firebase.auth.UserRecord;
 import com.google.firebase.auth.UserRecord.CreateRequest;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 
-import com.google.firebase.messaging.FirebaseMessaging;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import com.google.firebase.messaging.FirebaseMessagingException;
-// import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.*;
 
-
-
-// import jakarta.mail.Authenticator;
-// import jakarta.mail.Message;
-// import jakarta.mail.MessagingException;
-// import jakarta.mail.Multipart;
-// import jakarta.mail.PasswordAuthentication;
-// import jakarta.mail.Session;
-// import jakarta.mail.Transport;
-// import jakarta.mail.internet.AddressException;
-// import jakarta.mail.internet.InternetAddress;
-// import jakarta.mail.internet.MimeBodyPart;
-// import jakarta.mail.internet.MimeMessage;
-// import jakarta.mail.internet.MimeMultipart;
-
-// import jakarta.mail.MessagingException;
-// import jakarta.mail.internet.MimeMessage;
-
 import java.util.Properties;
-// import javax.mail.Authenticator;
-// import javax.mail.Message;
-// import javax.mail.MessagingException;
-// import javax.mail.PasswordAuthentication;
-// import javax.mail.Session;
-// import javax.mail.Transport;
-// import javax.mail.internet.InternetAddress;
-// import javax.mail.internet.MimeMessage;
-// import javax.mail.util.ByteArrayDataSource;
-// import javax.activation.DataContentHandler;
-// import javax.activation.DataHandler; 
-
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class AuthenticationService {
-
+///https://bootstrapmade.com/
     @Autowired
     private JavaMailSender mailSender;
     public Map<String, Object> registerWithEmailAndPassword(
@@ -70,7 +41,7 @@ public class AuthenticationService {
           ActionCodeSettings.builder()
                 // URL you want to redirect back to. The domain (www.example.com) for this
                 // URL must be whitelisted in the Firebase Console.
-                .setUrl("https://mistsafe-production.up.railway.app/")
+                .setUrl("https://mistsafe-production.up.railway.app/home?email=" + email+"&status=verifyEmail")
                 // This must be true
                 .setHandleCodeInApp(true)
                 .build();
@@ -120,73 +91,121 @@ public class AuthenticationService {
         return null;
       }
 
+      public Map<String, Object> signInWithEmailAndPassworde(String email, String password, HttpSession session){
+        try{
+          // @Autowired
+          FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-//         public static void sendEmailVerificationLink(String email, String link) throws AddressException, MessagingException {
-//     // Use your favorite email service provider to send the email
-//     // Here's an example using JavaMail API
-//     // Properties props = new Properties();
-//     // props.put("mail.smtp.auth", "true");
-//     // props.put("mail.smtp.starttls.enable", "true");
-//     // props.put("mail.smtp.host", "smtp.gmail.com");
-//     // props.put("mail.smtp.port", "587");
+          UserRecord userRecord = firebaseAuth.getUserByEmail(email);
+          Map<String, Object> user = new HashMap<String, Object>();
+          user.put("userId", userRecord.getUid());
+          user.put("userEmail", userRecord.getEmail());
+          if (userRecord.isDisabled()) {
+            // If the user is disabled, return 401 Unauthorized
+            // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+          }
+          // Set the user in the session
+          session.setAttribute("user", user);
+          // Set the expiry time of the session to 30 minutes
+          session.setMaxInactiveInterval(30 * 60);
+          // Return the signed-in user
+          return user;
+          // return ResponseEntity.ok(user);
+        }catch(Exception e){
 
-//     // Session session = Session.getInstance(props,
-//     //   new javax.mail.Authenticator() {
-//     //     protected PasswordAuthentication getPasswordAuthentication() {
-//     //         return new PasswordAuthentication("faletioluwaseyisam@gmail.com", "gyxjhrbqvspriejk");
-//     //     }
-//     //   });
+        }
+        return null;
+      }
 
-//     // try {
-//     //     Message message = new MimeMessage(session);
-//     //     message.setFrom(new InternetAddress("faletioluwaseyisam@gmail.com"));
-//     //     message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-//     //     message.setSubject("Email Verification Link");
-//     //     String body = "Please click on the following link to verify your email address:\n\n" + link;
-//     //     message.setText(body);
-//     //     message.setDataHandler(new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain")));
-//     //     message.setHeader("Content-Type", "text/plain; charset=UTF-8");
+      private static final long COOKIE_EXPIRATION_TIME = TimeUnit.DAYS.toMillis(30);
 
-//     //     // String body = "Please click on the following link to verify your email address:\n\n" + link;
-//     //     Transport.send(message);
+    public String login(String email, String password,
+            HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+        try {
 
-//     //     System.out.println("Email sent successfully.");
-//     // } catch (MessagingException e) {
-//     //     throw new RuntimeException(e);
-//     // }25
+          FirebaseAuth auth = FirebaseAuth.getInstance();
+          
+        UserRecord userRecord = auth.getUserByEmail(email);
+        
+        
+        if (!userRecord.isEmailVerified()) {
+            // handle unverified email error
+            return "email-not-verified";
+        }
 
-//     Properties prop = new Properties();
-//     prop.put("mail.smtp.auth", true);
-//     prop.put("mail.smtp.starttls.enable", "true");
-//     prop.put("mail.smtp.host", "smtp.mailtrap.io");
-//     prop.put("mail.smtp.port", "587");
-//     prop.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
-//     prop.put("mail.username", "faletioluwaseyisam@gmail.com");
-//     prop.put("mail.password", "gyxjhrbqvspriejk");
+        // create custom token
+        String customToken = auth.createCustomToken(userRecord.getUid());
 
-//     // Session session = Session.getInstance(prop, new Authenticator() {
-//     //     @Override
-//     //     protected PasswordAuthentication getPasswordAuthentication() {
-//     //         return new PasswordAuthentication("faletioluwaseyisam@gmail.com", "gyxjhrbqvspriejk");
-//     //     }
-//     // });
+        // set the session cookie
+        String sessionCookie = auth.createSessionCookie(customToken, getSessionCookieOptions());
+        request.getSession().setAttribute("sessionCookie", sessionCookie);
 
-//     // Message message = new MimeMessage(session);
-//     // message.setFrom(new InternetAddress("faletioluwaseyisam@gmail.com"));
-//     // message.setRecipients(
-//     //   Message.RecipientType.TO, InternetAddress.parse("olusinafaleti@gmail.com"));
-//     // message.setSubject("Mail Subject");
+        // set the idToken cookie
+        Cookie idTokenCookie = new Cookie("idToken", sessionCookie);
+        idTokenCookie.setHttpOnly(true); // make the cookie accessible only through HTTP(S)
+        idTokenCookie.setSecure(true); // make the cookie accessible only over HTTPS
+        idTokenCookie.setMaxAge((int) TimeUnit.DAYS.toSeconds(30)); // set the cookie expiration time to 30 days
+        idTokenCookie.setPath("/"); // set the cookie path to "/"
+        response.addCookie(idTokenCookie); // add the cookie to the response
 
-//     // String msg = "This is my first email using JavaMailer";
 
-//     // MimeBodyPart mimeBodyPart = new MimeBodyPart();
-//     // mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
+            // redirect the user to the home page
+            return "home";
+        } catch (FirebaseAuthException e) {
+            // handle authentication error
+            if (e.getErrorCode().equals("user-not-found")) {
+              return "user-not-found";
+              // handle user not found error
+            } else if (e.getErrorCode().equals("invalid-password")) {
+              // handle invalid password error
+            } else {
+              // handle other authentication errors
+            }
+            return "error";
+        } catch (Exception e) {
+            // handle other exceptions
+            return "unknown-error";
+        }
+    }
 
-//     // Multipart multipart = new MimeMultipart();
-//     // multipart.addBodyPart(mimeBodyPart);
+      private static SessionCookieOptions getSessionCookieOptions() {
+        return SessionCookieOptions.builder()
+                .setExpiresIn(COOKIE_EXPIRATION_TIME)
+                .build();
+    }
 
-//     // message.setContent(multipart);
+    public boolean resendVerificationLink(String email){
 
-//     // Transport.send(message);
-//   }
-}
+      try{
+        EmailService emailService = new EmailService();
+
+        UserRecord userRecord = FirebaseAuth.getInstance().getUserByEmail(email);
+
+        String uid = userRecord.getUid();
+
+        ActionCodeSettings actionCodeSettings = 
+          ActionCodeSettings.builder()
+                // URL you want to redirect back to. The domain (www.example.com) for this
+                // URL must be whitelisted in the Firebase Console.
+                .setUrl("https://mistsafe-production.up.railway.app/home?email=" + email+"&status=verifyEmail")
+                // This must be true
+                .setHandleCodeInApp(true)
+                .build();
+
+        String link = FirebaseAuth.getInstance().generateEmailVerificationLink(
+                email, actionCodeSettings);
+
+        String subject = "Verify your email address";
+        String text = "Hi " + email + ",\n\nPlease click on the following link to verify your email address:\n\n" + link + "\n\nBest regards,\nThe mistSafe Team";
+
+        String result = emailService.sendEmail(email, subject, text);
+
+        if(result == "fail"){
+          return false;
+        }
+        return true;
+      }catch (Exception e){
+        return false;
+      }
+    }
+    }
